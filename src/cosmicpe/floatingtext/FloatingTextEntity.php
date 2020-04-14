@@ -120,6 +120,12 @@ class FloatingTextEntity extends Entity{
 		return false;
 	}
 
+    public function setNameTag(string $name) : void{
+        parent::setNameTag($name);
+        $this->sendData($this->hasSpawned, $this->propertyManager->getDirty());
+        $this->propertyManager->clearDirtyProperties();
+    }
+
 	public function close() : void{
 		parent::close();
 		foreach($this->despawn_callbacks as $callback){
