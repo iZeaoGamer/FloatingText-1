@@ -47,5 +47,5 @@ it can prepare a list of floating texts that require an update during runtime, m
 
 Floating texts are registered as entities and will only spawn when the chunk they're in is loaded.<br>
 
-The floating texts are stored in an `SQLite3` database and all calls to the database are tbreaded + asynchronous (except for `CREATE TABLE` which sleeps the main thread until the query has been executed).
+The floating texts are stored in an `SQLite3` database and all calls to the database are threaded + asynchronous (except for `CREATE TABLE` which sleeps the main thread until the query has been executed).
 This means whenever a world is loaded, the floating texts may not appear until the results of the SELECT statement are returned. However, SQLite3 is fast enough to make this a near impossible case (unless you hacked the plugin and got access to the `Database` object and are hogging the database with mass insert/updates requests).
