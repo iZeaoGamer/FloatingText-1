@@ -73,7 +73,7 @@ class FloatingTextEntity extends Entity{
 
 		$pk = new AddPlayerPacket();
 		$pk->uuid = $this->uuid;
-		$pk->username = $this->getNameTag()
+		$pk->username = $this->getNameTag();
 		$pk->entityRuntimeId = $this->getId();
 		$pk->position = $this->asVector3();
 		$pk->motion = $this->getMotion();
