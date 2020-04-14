@@ -4,27 +4,27 @@ declare(strict_types=1);
 
 namespace cosmicpe\floatingtext\world;
 
+use pocketmine\event\level\ChunkLoadEvent;
+use pocketmine\event\level\LevelLoadEvent;
+use pocketmine\event\level\LevelUnloadEvent;
 use pocketmine\event\Listener;
-use pocketmine\event\world\ChunkLoadEvent;
-use pocketmine\event\world\WorldLoadEvent;
-use pocketmine\event\world\WorldUnloadEvent;
 
 final class WorldEventListener implements Listener{
 
 	/**
-	 * @param WorldLoadEvent $event
+	 * @param LevelLoadEvent $event
 	 * @priority LOWEST
 	 */
-	public function onWorldLoad(WorldLoadEvent $event) : void{
-		WorldManager::add($event->getWorld());
+	public function onWorldLoad(LevelLoadEvent $event) : void{
+		WorldManager::add($event->getLevel());
 	}
 
 	/**
-	 * @param WorldUnloadEvent $event
+	 * @param LevelUnloadEvent $event
 	 * @priority LOWEST
 	 */
-	public function onWorldUnload(WorldUnloadEvent $event) : void{
-		WorldManager::remove($event->getWorld());
+	public function onWorldUnload(LevelUnloadEvent $event) : void{
+		WorldManager::remove($event->getLevel());
 	}
 
 	/**
@@ -33,6 +33,6 @@ final class WorldEventListener implements Listener{
 	 */
 	public function onChunkLoad(ChunkLoadEvent $event) : void{
 		$chunk = $event->getChunk();
-		WorldManager::get($event->getWorld())->onChunkLoad($chunk->getX(), $chunk->getZ());
+		WorldManager::get($event->getLevel())->onChunkLoad($chunk->getX(), $chunk->getZ());
 	}
 }

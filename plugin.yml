@@ -1,6 +1,6 @@
 name: FloatingText
 main: cosmicpe\floatingtext\Loader
-api: 4.0.0
+api: 3.0.0
 version: 0.0.1
 commands:
   floatingtext:

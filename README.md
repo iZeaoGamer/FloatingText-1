@@ -1,5 +1,6 @@
 # FloatingText
 A PocketMine-MP plugin that spawns floating texts (aka holograms).
+This fork is a backport of the original plugin for PM 3.0
 
 ## Usage
 Once installed, use `/ft add some &eyellow text &rhere` to spawn a floating text.<br>

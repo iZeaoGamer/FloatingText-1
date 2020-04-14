@@ -7,6 +7,7 @@ namespace cosmicpe\floatingtext\world;
 use cosmicpe\floatingtext\FloatingText;
 use cosmicpe\floatingtext\FloatingTextEntity;
 use cosmicpe\floatingtext\Loader;
+use pocketmine\level\Level;
 use pocketmine\world\World;
 
 final class WorldManager{
@@ -18,7 +19,7 @@ final class WorldManager{
 	private static $listeners = [];
 
 	public static function init(Loader $loader) : void{
-		foreach($loader->getServer()->getWorldManager()->getWorlds() as $world){
+		foreach($loader->getServer()->getLevels() as $world){
 			self::add($world);
 			foreach($world->getChunks() as $chunk){
 				self::get($world)->onChunkLoad($chunk->getX(), $chunk->getZ());
@@ -36,14 +37,14 @@ final class WorldManager{
 		unset(self::$listeners[spl_object_id($listener)]);
 	}
 
-	public static function add(World $world) : void{
+	public static function add(Level $world) : void{
 		self::$worlds[$world->getId()] = $instance = new WorldInstance($world);
 		foreach(self::$listeners as $listener){
 			$listener->onWorldAdd($instance);
 		}
 	}
 
-	public static function remove(World $world) : void{
+	public static function remove(Level $world) : void{
 		$instance = self::$worlds[$id = $world->getId()];
 		unset(self::$worlds[$id]);
 		foreach(self::$listeners as $listener){
@@ -51,7 +52,7 @@ final class WorldManager{
 		}
 	}
 
-	public static function get(World $world) : WorldInstance{
+	public static function get(Level $world) : WorldInstance{
 		return self::$worlds[$world->getId()];
 	}
 

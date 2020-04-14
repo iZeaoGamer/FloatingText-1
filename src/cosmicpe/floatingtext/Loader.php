@@ -10,8 +10,8 @@ use cosmicpe\floatingtext\world\WorldManager;
 use InvalidArgumentException;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\entity\EntityFactory;
-use pocketmine\player\Player;
+use pocketmine\entity\Entity;
+use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
 
@@ -20,8 +20,8 @@ final class Loader extends PluginBase{
 	/** @var Database */
 	private $database;
 
-	protected function onEnable() : void{
-		EntityFactory::register(FloatingTextEntity::class, ["cosmicpe:floating_text"]);
+	public function onEnable() : void{
+		Entity::registerEntity(FloatingTextEntity::class, true, ["cosmicpe:floating_text"]);
 		$this->database = new Database($this);
 		FloatingTextHandlerManager::init();
 		WorldManager::init($this);
@@ -31,7 +31,7 @@ final class Loader extends PluginBase{
 		return $this->database;
 	}
 
-	protected function onDisable() : void{
+	public function onDisable() : void{
 		$this->database->close();
 	}
 
@@ -46,7 +46,7 @@ final class Loader extends PluginBase{
 				case "add":
 					if(isset($args[1])){
 						$line = TextFormat::colorize(implode(" ", array_slice($args, 1)));
-						$world = $sender->getWorld();
+						$world = $sender->getLevel();
 						$pos = $sender->getPosition();
 						$this->database->add($text = new FloatingText($world->getFolderName(), $pos->x, $pos->y, $pos->z, $line), static function(int $id) use($sender, $world, $text) : void{
 							WorldManager::get($world)->add($id, $text);
@@ -62,7 +62,7 @@ final class Loader extends PluginBase{
 					}
 					return true;
 				case "near":
-					$world = $sender->getWorld();
+					$world = $sender->getLevel();
 					$found = 0;
 					foreach($world->getNearbyEntities($sender->getBoundingBox()->expandedCopy(8, 8, 8)) as $entity){
 						if($entity instanceof FloatingTextEntity){
@@ -77,7 +77,7 @@ final class Loader extends PluginBase{
 						$id = (int) $args[1];
 						if($args[1] === "$id"){
 							try{
-								$text = WorldManager::get($sender->getWorld())->remove($id);
+								$text = WorldManager::get($sender->getLevel())->remove($id);
 							}catch(InvalidArgumentException $e){
 								$sender->sendMessage(TextFormat::RED . "No floating text with the ID " . $id . " was found!");
 								return false;
