@@ -9,3 +9,5 @@ commands:
 permissions:
   floatingtext.command:
     default: op
+virions:
+    - "libasynql"
