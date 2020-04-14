@@ -86,7 +86,7 @@ class FloatingTextEntity extends Entity
             PlayerListEntry::createAdditionEntry(
                 $this->uuid,
                 $this->getId(),
-                "", 
+                "",
                 SkinAdapterSingleton::get()->toSkinData(new Skin("Standard_Custom", str_repeat("\x00", 8192))))
         ];
         $player->sendDataPacket($add);
@@ -102,6 +102,13 @@ class FloatingTextEntity extends Entity
         $pk->item = Item::get(Item::AIR, 0, 0);
         $pk->metadata = $this->propertyManager->getAll();
         $player->sendDataPacket($pk);
+
+        $remove = new PlayerListPacket();
+        $remove->type = PlayerListPacket::TYPE_REMOVE;
+        $remove->entries = [
+            PlayerListEntry::createRemovalEntry($this->uuid)
+        ];
+        $player->sendDataPacket($remove);
 
         $pk = new PlayerSkinPacket();
         $pk->uuid = $this->uuid;
