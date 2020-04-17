@@ -104,6 +104,7 @@ final class WorldInstance{
 	}
 
 	private function spawnText(int $id) : void{
+	    if(!isset($this->texts[$id])) return;
 		$text = $this->texts[$id];
 		$nbt = Entity::createBaseNBT(new Vector3($text->getX(), $text->getY(), $text->getZ()));
 		$nbt->setString("CustomName", $text->getLine());
