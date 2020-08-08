@@ -36,7 +36,7 @@ class FloatingTextEntity extends Entity
     protected $baseOffset = 1.62;
 
     /** @var UUID */
-    private $uuid;
+    protected $uuid;
 
     /** @var int */
     private $floating_text_id;
